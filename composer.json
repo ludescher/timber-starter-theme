@@ -1,0 +1,35 @@
+{
+	"name" : "ludescher/timber-starter-theme",
+	"description" : "Starter theme to build a Timber theme",
+	"type" : "wordpress-theme",
+	"minimum-stability" : "stable",
+	"authors" : [
+		{
+			"name" : "Johannes Ludescher"
+		}
+	],
+	"repositories" : [
+		{
+			"type" : "composer",
+			"url" : "https://wpackagist.org"
+		}
+	],
+	"extra" : {
+		"installer-paths" : {
+			"../../plugins/{$name}/" : [
+				"wpackagist-plugin/*",
+				"type:wordpress-plugin"
+			]
+		}
+	},
+	"require" : {
+		"wpackagist-plugin/timber-library" : "1.*",
+		"symfony/finder" : "^3.4"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"lib\\" : "lib",
+			"src\\" : "src"
+		}
+	}
+}
