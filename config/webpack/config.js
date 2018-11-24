@@ -7,12 +7,12 @@ module.exports = {
    *
    * This is for Webpack that it can handle assets relative path right.
    */
-  assetsPath: '/timber/wp-content/themes/timber/',
+  assetsPath: '/YOUR-PROJECT-NAME/wp-content/themes/YOUR-THEME-NAME/',
 
   /**
    * Define here your dev server url here.
    *
    * This is for Browsersync.
    */
-  devUrl: 'http://192.168.2.24/timber/',
+  devUrl: 'http://localhost/YOUR-PROJECT-NAME/',
 };

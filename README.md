@@ -13,19 +13,48 @@
 
 Go to your themes folder and
 ```
-$ git clone https://github.com/ludescher/wordpress-timber-theme.git
-$ cd wordpress-timber-theme
+$ git clone https://github.com/ludescher/timber-starter-theme.git
+$ cd timber-starter-theme
 $ composer install
 $ npm install
 $ npm run watch
 ```
 Finally, activate the Timber plugin!
 
-### Menus
-Register all needed menus in
-
+### Webpack
+Take a quick look into
 ```
-config/menus/menus.php
+// config/webpack/config.js
+
+[...]
+
+  assetsPath: '/YOUR-PROJECT-NAME/wp-content/themes/YOUR-THEME-NAME/',
+
+[...]
+
+  devUrl: 'http://localhost/YOUR-PROJECT-NAME/',
+
+[...]
+```
+Replace YOUR-PROJECT-NAME and YOUR-THEME-NAME with your configuration.
+
+### Theme
+You can manage all needed Theme settings in
+```
+config/site.php
+```
+Registering a menu etc.
+
+### Post Types
+If you need any custom post types, you can easily create a file in the post_types directory.
+```
+config/post_types/car.php
+```
+
+### Taxonomies
+Same goes for taxonomies.
+```
+config/taxonomies/car_brand.php
 ```
 
 ### AJAX Controller Interface
@@ -34,7 +63,7 @@ config/menus/menus.php
 Register a Route
 
 ```
-// src/Controller/DefaultController.php
+// src/controller/DefaultController.php
 
 Controller::register([
 	'methods' => ['POST'],
@@ -47,4 +76,4 @@ Controller::register([
 	},
 ]);
 ```
-Just assign a Name, a Route Name and an callback (which handles the request) and if you have to render additional data, you can simply call render ;-)
+Just assign a Name, a Route Name and an callback (which handles the request) and if you have to render additional data, you can simply call render() ;-)
