@@ -16,11 +16,6 @@ if ( ! class_exists( 'Timber' ) ) {
 }
 
 /**
- * Require Autoload
- */
-require_once __DIR__ . '/vendor/autoload.php';
-
-/**
  * Sets the directories (inside your theme) to find .twig files
  */
 Timber::$dirname = array( 'src/views', 'views' );
@@ -30,6 +25,17 @@ Timber::$dirname = array( 'src/views', 'views' );
  */
 Timber::$autoescape = false;
 
-include("config/site.php");
+/**
+ * Require Autoload
+ */
+$autoload_path = __DIR__ . '/vendor/autoload.php';
 
-new StarterSite();
+if (file_exists($autoload_path)) {
+	require_once $autoload_path;
+
+	include("config/site.php");
+
+	new StarterSite();
+} else {
+	echo '<div class="error"><p>Autoload is missing. Make sure you\'ve installed all composer packages.</p></div>';
+}

@@ -25,61 +25,81 @@ class StarterSite extends Timber\Site {
 
 	/** This is where you can register custom libraries. */
 	public function register_libraries() {
-		$this->finder->files()
-			->in(dirname(__DIR__) . '/lib/')
-			->name('*.php')
-			->notName(basename(__FILE__));
+		$path = dirname(__DIR__) . '/lib/';
 
-		foreach ($this->finder as $file) {
-			require_once $file->getRealPath();
+		if (file_exists($path)) {
+			$this->finder->files()
+				->in($path)
+				->name('*.php')
+				->notName(basename(__FILE__));
+
+			foreach ($this->finder as $file) {
+				require_once $file->getRealPath();
+			}
 		}
 	}
 	
 	/** This is where you can register custom post types. */
 	public function register_post_types() {
-		$this->finder->files()
-			->in(__DIR__ . '/post_types/')
-			->name('*.php')
-			->notName(basename(__FILE__));
+		$path = dirname(__DIR__) . '/config/post_types/';
 
-		foreach ($this->finder as $file) {
-			require_once $file->getRealPath();
+		if (file_exists($path)) {
+			$this->finder->files()
+				->in($path)
+				->name('*.php')
+				->notName(basename(__FILE__));
+
+			foreach ($this->finder as $file) {
+				require_once $file->getRealPath();
+			}
 		}
 	}
 
 	/** This is where you can register custom taxonomies. */
 	public function register_taxonomies() {
-		$this->finder->files()
-			->in(__DIR__ . '/taxonomies/')
-			->name('*.php')
-			->notName(basename(__FILE__));
+		$path = dirname(__DIR__) . '/config/taxonomies/';
 
-		foreach ($this->finder as $file) {
-			require_once $file->getRealPath();
+		if (file_exists($path)) {
+			$this->finder->files()
+				->in($path)
+				->name('*.php')
+				->notName(basename(__FILE__));
+
+			foreach ($this->finder as $file) {
+				require_once $file->getRealPath();
+			}
 		}
 	}
 
 	/** This is where you can register custom visual-composer modules. */
 	public function register_visual_composer_modules() {
-		$this->finder->files()
-			->in(dirname(__DIR__) . '/src/vc_modules/')
-			->name('*.php')
-			->notName(basename(__FILE__));
+		$path = dirname(__DIR__) . '/src/vc_modules/';
 
-		foreach ($this->finder as $file) {
-			require_once $file->getRealPath();
+		if (file_exists($path)) {
+			$this->finder->files()
+				->in($path)
+				->name('*.php')
+				->notName(basename(__FILE__));
+
+			foreach ($this->finder as $file) {
+				require_once $file->getRealPath();
+			}
 		}
 	}
 
 	/** This is where you can register controller. */
 	public function register_controller() {
-		$this->finder->files()
-			->in(dirname(__DIR__) . '/src/controller/')
-			->name('*.php')
-			->notName(basename(__FILE__));
+		$path = dirname(__DIR__) . '/src/controller/';
 
-		foreach ($this->finder as $file) {
-			require_once $file->getRealPath();
+		if (file_exists($path)) {
+			$this->finder->files()
+				->in($path)
+				->name('*.php')
+				->notName(basename(__FILE__));
+
+			foreach ($this->finder as $file) {
+				require_once $file->getRealPath();
+			}
 		}
 	}
 
