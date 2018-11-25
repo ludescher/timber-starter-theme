@@ -18,7 +18,7 @@ require("babel-polyfill");
 const extractCss = {
     loader: MiniCssExtractPlugin.loader,
     options: {
-        publicPath: `${config.assetsPath}static/css/`,
+        publicPath: `${config.assetsPath}public/css/`,
     },
 };
 
@@ -97,7 +97,7 @@ module.exports = {
                         options: {
                             name: '[name].[ext]',
                             outputPath: 'images/',
-                            publicPath: `${config.assetsPath}static/images/`,
+                            publicPath: `${config.assetsPath}public/images/`,
                         },
                     },
                     'image-webpack-loader',
@@ -110,7 +110,7 @@ module.exports = {
                     limit: 10000,
                     name: '[name].[ext]',
                     outputPath: 'fonts/',
-                    publicPath: `${config.assetsPath}static/fonts/`,
+                    publicPath: `${config.assetsPath}public/fonts/`,
                 },
             }
         ],
@@ -145,7 +145,7 @@ module.exports = {
         }),
 
         //new VueLoaderPlugin(),
-        new CleanWebpackPlugin(['static/css/*', 'static/js/*'], {
+        new CleanWebpackPlugin(['public/css/*', 'public/js/*'], {
             root: path.join(__dirname, '../'),
             watch: true,
         }),
@@ -157,7 +157,7 @@ module.exports = {
             host: 'localhost',
             port: 3000,
             proxy: config.devUrl, // YOUR DEV-SERVER URL
-            files: ['./*.php', './app/Resources/views/**/*.twig', './static/*.*'],
+            files: ['./*.php', './app/Resources/views/**/*.twig', './public/*.*'],
         }),
     ],
 };
