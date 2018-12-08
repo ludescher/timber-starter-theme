@@ -11,15 +11,20 @@ class StarterSite extends Timber\Site {
 	public function __construct() {
 		$this->finder = new Finder();
 
+		//Register Actions / Filters
 		add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
 		add_filter( 'timber_context', array( $this, 'add_to_context' ) );
-		add_action( 'init', array( $this, 'register_libraries' ) );
-		add_action( 'init', array( $this, 'register_post_types' ) );
-		add_action( 'init', array( $this, 'register_taxonomies' ) );
-		add_action( 'init', array( $this, 'register_visual_composer_modules' ) );
-		add_action( 'init', array( $this, 'register_controller' ) );
-		add_action( 'init', array( $this, 'register_menus' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_and_styles' ), 999);
+
+		// Register Custom PHP-Files
+		$this->register_libraries();
+		$this->register_post_types();
+		$this->register_taxonomies();
+		$this->register_visual_composer_modules();
+		$this->register_controller();
+		$this->register_menus();
+		$this->register_extensions();
+
 		parent::__construct();
 	}
 
@@ -108,6 +113,22 @@ class StarterSite extends Timber\Site {
 		register_nav_menu('header_menu', __('Header menu', 'timber'));
 
 		register_nav_menu('footer_menu', __('Footer menu', 'timber'));
+	}
+
+	/** This is where you can register all needed extensions. */
+	public function register_extensions() {
+		$path = dirname(__DIR__) . '/src/extensions/';
+
+		if (file_exists($path)) {
+			$this->finder->files()
+				->in($path)
+				->name('*.php')
+				->notName(basename(__FILE__));
+
+			foreach ($this->finder as $file) {
+				require_once $file->getRealPath();
+			}
+		}
 	}
 
 	/** This is where you add some context
