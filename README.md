@@ -67,8 +67,8 @@ Register a Route
 
 Controller::register([
 	'methods' => ['POST'],
-	'route' => 'posts/aller',
-	'name' => 'just_posts',
+	'route' => 'posts/all',
+	'name' => 'get_all_posts',
 	'callback' => function (WP_REST_Request $request) {
 		$data = $request->get_params();
 
