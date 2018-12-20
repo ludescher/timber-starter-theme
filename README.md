@@ -13,8 +13,8 @@
 
 Go to your themes folder and
 ```
-$ git clone https://github.com/ludescher/timber-starter-theme.git
-$ cd timber-starter-theme
+$ git clone https://github.com/ludescher/timber-starter-theme.git <theme-name>
+$ cd <theme-name>
 $ composer install
 $ npm install
 $ npm run watch
