@@ -24,7 +24,8 @@
 	},
 	"require" : {
 		"wpackagist-plugin/timber-library" : "1.*",
-		"symfony/finder" : "^3.4"
+		"symfony/finder" : "^3.4",
+		"symfony/var-dumper": "^4.2"
 	},
 	"autoload" : {
 		"psr-4" : {
