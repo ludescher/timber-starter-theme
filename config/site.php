@@ -20,11 +20,8 @@ class StarterSite extends Timber\Site {
 		$this->register_libraries();
 		$this->register_post_types();
 		$this->register_taxonomies();
-		$this->register_visual_composer_modules();
-		$this->register_controller();
 		$this->register_menus();
-		$this->register_extensions();
-
+		$this->register_src();
 		parent::__construct();
 	}
 
@@ -43,10 +40,26 @@ class StarterSite extends Timber\Site {
 			}
 		}
 	}
+
+	/** This is where you can register custom Metaboxes. */
+	public function register_metaboxes() {
+		$path = dirname(__DIR__) . '/config/metaboxes/';
+
+		if (file_exists($path)) {
+			$this->finder->files()
+				->in($path)
+				->name('*.php')
+				->notName(basename(__FILE__));
+
+			foreach ($this->finder as $file) {
+				require_once $file->getRealPath();
+			}
+		}
+	}
 	
 	/** This is where you can register custom post types. */
 	public function register_post_types() {
-		$path = dirname(__DIR__) . '/config/post_types/';
+		$path = dirname(__DIR__) . '/config/PostType/';
 
 		if (file_exists($path)) {
 			$this->finder->files()
@@ -62,7 +75,7 @@ class StarterSite extends Timber\Site {
 
 	/** This is where you can register custom taxonomies. */
 	public function register_taxonomies() {
-		$path = dirname(__DIR__) . '/config/taxonomies/';
+		$path = dirname(__DIR__) . '/config/Taxonomy/';
 
 		if (file_exists($path)) {
 			$this->finder->files()
@@ -76,25 +89,9 @@ class StarterSite extends Timber\Site {
 		}
 	}
 
-	/** This is where you can register custom visual-composer modules. */
-	public function register_visual_composer_modules() {
-		$path = dirname(__DIR__) . '/src/vc_modules/';
-
-		if (file_exists($path)) {
-			$this->finder->files()
-				->in($path)
-				->name('*.php')
-				->notName(basename(__FILE__));
-
-			foreach ($this->finder as $file) {
-				require_once $file->getRealPath();
-			}
-		}
-	}
-
-	/** This is where you can register controller. */
-	public function register_controller() {
-		$path = dirname(__DIR__) . '/src/controller/';
+	/** This is where you can register ... */
+	public function register_src() {
+		$path = dirname(__DIR__) . '/src/';
 
 		if (file_exists($path)) {
 			$this->finder->files()
@@ -113,22 +110,6 @@ class StarterSite extends Timber\Site {
 		register_nav_menu('header_menu', __('Header menu', 'timber'));
 
 		register_nav_menu('footer_menu', __('Footer menu', 'timber'));
-	}
-
-	/** This is where you can register all needed extensions. */
-	public function register_extensions() {
-		$path = dirname(__DIR__) . '/src/extensions/';
-
-		if (file_exists($path)) {
-			$this->finder->files()
-				->in($path)
-				->name('*.php')
-				->notName(basename(__FILE__));
-
-			foreach ($this->finder as $file) {
-				require_once $file->getRealPath();
-			}
-		}
 	}
 
 	/** This is where you add some context

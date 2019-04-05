@@ -77,3 +77,17 @@ Controller::register([
 ]);
 ```
 Just assign a Name, a Route Name and an callback (which handles the request) and if you have to render additional data, you can simply call render() ;-)
+
+
+### Webpack-Encore
+```
+# compile assets once
+$ yarn encore dev
+
+# or, recompile assets automatically when files change
+$ yarn encore dev --watch
+
+# on deploy, create a production build
+$ yarn encore production
+```
+Finally, activate the Timber plugin!
