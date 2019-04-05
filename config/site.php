@@ -41,54 +41,6 @@ class StarterSite extends Timber\Site {
 		}
 	}
 
-	/** This is where you can register custom Metaboxes. */
-	public function register_metaboxes() {
-		$path = dirname(__DIR__) . '/config/metaboxes/';
-
-		if (file_exists($path)) {
-			$this->finder->files()
-				->in($path)
-				->name('*.php')
-				->notName(basename(__FILE__));
-
-			foreach ($this->finder as $file) {
-				require_once $file->getRealPath();
-			}
-		}
-	}
-	
-	/** This is where you can register custom post types. */
-	public function register_post_types() {
-		$path = dirname(__DIR__) . '/config/PostType/';
-
-		if (file_exists($path)) {
-			$this->finder->files()
-				->in($path)
-				->name('*.php')
-				->notName(basename(__FILE__));
-
-			foreach ($this->finder as $file) {
-				require_once $file->getRealPath();
-			}
-		}
-	}
-
-	/** This is where you can register custom taxonomies. */
-	public function register_taxonomies() {
-		$path = dirname(__DIR__) . '/config/Taxonomy/';
-
-		if (file_exists($path)) {
-			$this->finder->files()
-				->in($path)
-				->name('*.php')
-				->notName(basename(__FILE__));
-
-			foreach ($this->finder as $file) {
-				require_once $file->getRealPath();
-			}
-		}
-	}
-
 	/** This is where you can register ... */
 	public function register_src() {
 		$path = dirname(__DIR__) . '/src/';
@@ -178,34 +130,29 @@ class StarterSite extends Timber\Site {
 		// Register styles
 
 		$app_css_path = $this->assets('app.css');
-		$vendor_js_path = $this->assets('vendor.js');
 		$app_js_path = $this->assets('app.js');
 
 		if ($app_css_path !== false) {
 			wp_register_style('template-styles', $app_css_path, [], '', 'all');
 		}
 
-		// Register scripts
-		if ($vendor_js_path !== false) {
-			wp_register_script('template-vendor', $vendor_js_path, [], '', true);
-		}
-
 		if ($app_js_path !== false) {
-			wp_register_script('template-scripts', $app_js_path, ['template-vendor'], '', true);
+			wp_register_script('template-scripts', $app_js_path, [], '', true);
 		}
 
 		// Enqueue scripts and styles
 		wp_enqueue_script('template-scripts');
-		wp_enqueue_script('template-vendor');
 		wp_enqueue_style('template-styles');
 	}
 
 	public function assets($key) {
 		$path = get_template_directory() . '/public/manifest.json';
 
+		
 		if (file_exists($path)) {
-		    $manifest_string = file_get_contents($path);
-		    $manifest_array  = json_decode($manifest_string, true);
+			$manifest_string = file_get_contents($path);
+			$manifest_array  = json_decode($manifest_string, true);
+
 		    return get_stylesheet_directory_uri() . '/public/' . $manifest_array[$key];
 		} else {
 			return false;
