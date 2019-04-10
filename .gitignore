@@ -3,6 +3,6 @@ vendor/
 .DS_Store
 public/css/
 public/js/
-public/
+public/*
 composer.lock
 package-lock.json

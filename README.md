@@ -8,6 +8,7 @@
 * Composer
 * npm
 * Nodejs
+* Yarn
 
 ### Installation
 
@@ -21,22 +22,18 @@ $ npm run watch
 ```
 Finally, activate the Timber plugin!
 
-### Webpack
-Take a quick look into
+### Webpack-Encore
 ```
-// config/webpack/config.js
+# compile assets once
+$ yarn encore dev
 
-[...]
+# or, recompile assets automatically when files change
+$ yarn encore dev --watch
 
-  assetsPath: '/YOUR-PROJECT-NAME/wp-content/themes/YOUR-THEME-NAME/',
-
-[...]
-
-  devUrl: 'http://localhost/YOUR-PROJECT-NAME/',
-
-[...]
+# on deploy, create a production build
+$ yarn encore production
 ```
-Replace YOUR-PROJECT-NAME and YOUR-THEME-NAME with your configuration.
+Finally, activate the Timber plugin!
 
 ### Theme
 You can manage all needed Theme settings in
@@ -48,13 +45,13 @@ Registering a menu etc.
 ### Post Types
 If you need any custom post types, you can easily create a file in the post_types directory.
 ```
-config/post_types/car.php
+src/PostType/car.php
 ```
 
 ### Taxonomies
 Same goes for taxonomies.
 ```
-config/taxonomies/car_brand.php
+src/Taxonomy/car_brand.php
 ```
 
 ### AJAX Controller Interface
@@ -63,7 +60,7 @@ config/taxonomies/car_brand.php
 Register a Route
 
 ```
-// src/controller/DefaultController.php
+// src/Controller/DefaultController.php
 
 Controller::register([
 	'methods' => ['POST'],
@@ -77,17 +74,3 @@ Controller::register([
 ]);
 ```
 Just assign a Name, a Route Name and an callback (which handles the request) and if you have to render additional data, you can simply call render() ;-)
-
-
-### Webpack-Encore
-```
-# compile assets once
-$ yarn encore dev
-
-# or, recompile assets automatically when files change
-$ yarn encore dev --watch
-
-# on deploy, create a production build
-$ yarn encore production
-```
-Finally, activate the Timber plugin!
