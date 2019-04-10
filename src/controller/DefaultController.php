@@ -1,5 +1,7 @@
 <?php
 
+use lib\Controller;
+
 Controller::register([
 	'methods' => ['POST'],
 	'route' => 'posts/aller',
@@ -7,6 +9,6 @@ Controller::register([
 	'callback' => function (WP_REST_Request $request) {
 		$data = $request->get_params();
 
-		return Controller::render('components/ajax.html.twig', $data);
+		return $data;
 	},
 ]);

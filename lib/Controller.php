@@ -1,5 +1,7 @@
 <?php
 
+namespace lib;
+
 class Controller {
 	public static function register($route) {
 

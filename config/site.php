@@ -17,28 +17,9 @@ class StarterSite extends Timber\Site {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_and_styles' ), 999);
 
 		// Register Custom PHP-Files
-		$this->register_libraries();
-		$this->register_post_types();
-		$this->register_taxonomies();
 		$this->register_menus();
 		$this->register_src();
 		parent::__construct();
-	}
-
-	/** This is where you can register custom libraries. */
-	public function register_libraries() {
-		$path = dirname(__DIR__) . '/lib/';
-
-		if (file_exists($path)) {
-			$this->finder->files()
-				->in($path)
-				->name('*.php')
-				->notName(basename(__FILE__));
-
-			foreach ($this->finder as $file) {
-				require_once $file->getRealPath();
-			}
-		}
 	}
 
 	/** This is where you can register ... */
