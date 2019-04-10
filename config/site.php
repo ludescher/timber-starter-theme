@@ -130,10 +130,15 @@ class StarterSite extends Timber\Site {
 		// Register styles
 
 		$app_css_path = $this->assets('app.css');
+		$runtime_js_path = $this->assets('runtime.js');
 		$app_js_path = $this->assets('app.js');
 
 		if ($app_css_path !== false) {
 			wp_register_style('template-styles', $app_css_path, [], '', 'all');
+		}
+
+		if ($runtime_js_path !== false) {
+			wp_register_script('template-runtime', $runtime_js_path, [], '', true);
 		}
 
 		if ($app_js_path !== false) {
@@ -141,8 +146,9 @@ class StarterSite extends Timber\Site {
 		}
 
 		// Enqueue scripts and styles
-		wp_enqueue_script('template-scripts');
 		wp_enqueue_style('template-styles');
+		wp_enqueue_script('template-runtime');
+		wp_enqueue_script('template-scripts');
 	}
 
 	public function assets($key) {
