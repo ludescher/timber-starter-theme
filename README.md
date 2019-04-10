@@ -60,15 +60,18 @@ Register a Route
 
 ```
 // src/Controller/DefaultController.php
+<?php
+
+use lib\Controller;
 
 Controller::register([
 	'methods' => ['POST'],
-	'route' => 'posts/all',
-	'name' => 'get_all_posts',
+	'route' => 'post/all',
+	'name' => 'get_em_all',
 	'callback' => function (WP_REST_Request $request) {
 		$data = $request->get_params();
 
-		return Controller::render('components/ajax.html.twig', $data);
+		return $data;
 	},
 ]);
 ```
