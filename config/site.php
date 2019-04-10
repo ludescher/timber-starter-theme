@@ -20,11 +20,8 @@ class StarterSite extends Timber\Site {
 		$this->register_libraries();
 		$this->register_post_types();
 		$this->register_taxonomies();
-		$this->register_visual_composer_modules();
-		$this->register_controller();
 		$this->register_menus();
-		$this->register_extensions();
-
+		$this->register_src();
 		parent::__construct();
 	}
 
@@ -43,58 +40,10 @@ class StarterSite extends Timber\Site {
 			}
 		}
 	}
-	
-	/** This is where you can register custom post types. */
-	public function register_post_types() {
-		$path = dirname(__DIR__) . '/config/post_types/';
 
-		if (file_exists($path)) {
-			$this->finder->files()
-				->in($path)
-				->name('*.php')
-				->notName(basename(__FILE__));
-
-			foreach ($this->finder as $file) {
-				require_once $file->getRealPath();
-			}
-		}
-	}
-
-	/** This is where you can register custom taxonomies. */
-	public function register_taxonomies() {
-		$path = dirname(__DIR__) . '/config/taxonomies/';
-
-		if (file_exists($path)) {
-			$this->finder->files()
-				->in($path)
-				->name('*.php')
-				->notName(basename(__FILE__));
-
-			foreach ($this->finder as $file) {
-				require_once $file->getRealPath();
-			}
-		}
-	}
-
-	/** This is where you can register custom visual-composer modules. */
-	public function register_visual_composer_modules() {
-		$path = dirname(__DIR__) . '/src/vc_modules/';
-
-		if (file_exists($path)) {
-			$this->finder->files()
-				->in($path)
-				->name('*.php')
-				->notName(basename(__FILE__));
-
-			foreach ($this->finder as $file) {
-				require_once $file->getRealPath();
-			}
-		}
-	}
-
-	/** This is where you can register controller. */
-	public function register_controller() {
-		$path = dirname(__DIR__) . '/src/controller/';
+	/** This is where you can register ... */
+	public function register_src() {
+		$path = dirname(__DIR__) . '/src/';
 
 		if (file_exists($path)) {
 			$this->finder->files()
@@ -113,22 +62,6 @@ class StarterSite extends Timber\Site {
 		register_nav_menu('header_menu', __('Header menu', 'timber'));
 
 		register_nav_menu('footer_menu', __('Footer menu', 'timber'));
-	}
-
-	/** This is where you can register all needed extensions. */
-	public function register_extensions() {
-		$path = dirname(__DIR__) . '/src/extensions/';
-
-		if (file_exists($path)) {
-			$this->finder->files()
-				->in($path)
-				->name('*.php')
-				->notName(basename(__FILE__));
-
-			foreach ($this->finder as $file) {
-				require_once $file->getRealPath();
-			}
-		}
 	}
 
 	/** This is where you add some context
@@ -197,34 +130,35 @@ class StarterSite extends Timber\Site {
 		// Register styles
 
 		$app_css_path = $this->assets('app.css');
-		$vendor_js_path = $this->assets('vendor.js');
+		$runtime_js_path = $this->assets('runtime.js');
 		$app_js_path = $this->assets('app.js');
 
 		if ($app_css_path !== false) {
 			wp_register_style('template-styles', $app_css_path, [], '', 'all');
 		}
 
-		// Register scripts
-		if ($vendor_js_path !== false) {
-			wp_register_script('template-vendor', $vendor_js_path, [], '', true);
+		if ($runtime_js_path !== false) {
+			wp_register_script('template-runtime', $runtime_js_path, [], '', true);
 		}
 
 		if ($app_js_path !== false) {
-			wp_register_script('template-scripts', $app_js_path, ['template-vendor'], '', true);
+			wp_register_script('template-scripts', $app_js_path, [], '', true);
 		}
 
 		// Enqueue scripts and styles
-		wp_enqueue_script('template-scripts');
-		wp_enqueue_script('template-vendor');
 		wp_enqueue_style('template-styles');
+		wp_enqueue_script('template-runtime');
+		wp_enqueue_script('template-scripts');
 	}
 
 	public function assets($key) {
 		$path = get_template_directory() . '/public/manifest.json';
 
+		
 		if (file_exists($path)) {
-		    $manifest_string = file_get_contents($path);
-		    $manifest_array  = json_decode($manifest_string, true);
+			$manifest_string = file_get_contents($path);
+			$manifest_array  = json_decode($manifest_string, true);
+
 		    return get_stylesheet_directory_uri() . '/public/' . $manifest_array[$key];
 		} else {
 			return false;

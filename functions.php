@@ -9,7 +9,7 @@ if ( ! class_exists( 'Timber' ) ) {
 	});
 
 	add_filter('template_include', function( $template ) {
-		return get_stylesheet_directory() . '/src/views/no-timber.html';
+		return get_stylesheet_directory() . '/templates/no-timber.html';
 	});
 
 	return;
@@ -18,7 +18,7 @@ if ( ! class_exists( 'Timber' ) ) {
 /**
  * Sets the directories (inside your theme) to find .twig files
  */
-Timber::$dirname = array( 'src/views', 'views' );
+Timber::$dirname = array( 'templates', 'views' );
 
 /**
  * By default, Timber does NOT autoescape values.
