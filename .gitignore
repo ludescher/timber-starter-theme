@@ -6,3 +6,4 @@ public/js/
 public/*
 composer.lock
 package-lock.json
+yarn.lock
