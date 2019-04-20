@@ -32,6 +32,23 @@ $ yarn encore dev --watch
 # on deploy, create a production build
 $ yarn encore production
 ```
+now change "wordpress" to your sitename.
+```
+// webpack.config.js
+if (!Encore.isProduction()) {
+    const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+    config.plugins.push(
+        new BrowserSyncPlugin({
+            // browse to http://localhost:3000/ during development,
+            // ./public directory is being served
+            host: '127.0.0.1',
+            proxy: 'http://localhost/wordpress/',
+            port: 3000,
+            //server: { baseDir: ['public'] }
+        })
+    );
+}
+```
 Finally, activate the Timber plugin!
 
 ### Theme
