@@ -8,6 +8,21 @@ Encore
     // only needed for CDN's or sub-directory deploy
     //.setManifestKeyPrefix('build/')
 
+    .disableImagesLoader()
+
+    .addLoader({
+        test: /\.(png|jpg|jpeg|gif|ico|svg)$/,
+        use: [{
+            loader: 'file-loader',
+            options: {
+                name: '[path][name].[hash:8].[ext]',
+                publicPath: (url) => {
+                    return `./${url}`;
+                },
+            }
+        }]
+    })
+
     /*
      * ENTRY CONFIG
      *
