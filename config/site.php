@@ -140,7 +140,7 @@ class StarterSite extends Timber\Site {
 			$manifest_string = file_get_contents($path);
 			$manifest_array  = json_decode($manifest_string, true);
 
-		    return get_stylesheet_directory_uri() . '/public/' . $manifest_array[$key];
+		    return get_stylesheet_directory_uri() . '/public' . $manifest_array[$key];
 		} else {
 			return false;
 		}
