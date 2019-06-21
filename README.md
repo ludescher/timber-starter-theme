@@ -19,7 +19,7 @@ $ cd <theme-name>
 $ composer install
 $ npm install
 ```
-Finally, activate the Timber plugin!
+Now setup webpack and you're ready to go.
 
 ### Webpack-Encore
 ```
@@ -32,7 +32,7 @@ $ yarn encore dev --watch
 # on deploy, create a production build
 $ yarn encore production
 ```
-now change "wordpress" to your sitename.
+Change "WORDPRESS" to your sitename.
 ```
 // webpack.config.js
 if (!Encore.isProduction()) {
@@ -42,7 +42,7 @@ if (!Encore.isProduction()) {
             // browse to http://localhost:3000/ during development,
             // ./public directory is being served
             host: '127.0.0.1',
-            proxy: 'http://localhost/wordpress/',
+            proxy: 'http://localhost/WORDPRESS/',
             port: 3000,
             //server: { baseDir: ['public'] }
         })
