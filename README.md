@@ -91,10 +91,10 @@ Register a Route
 use lib\Controller;
 
 Controller::register([
-	'methods' => ['POST'],
-	'route' => 'post/by',
-	'name' => 'get_posts_by',
-	'callback' => function (WP_REST_Request $request) {
+    'methods' => ['POST'],
+    'route' => 'post/by',
+    'name' => 'get_posts_by',
+    'callback' => function (WP_REST_Request $request) {
         // retrieve request parameters
         $data = $request->get_params();
 
