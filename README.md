@@ -96,7 +96,7 @@ Controller::register([
 	'name' => 'get_posts_by',
 	'callback' => function (WP_REST_Request $request) {
         // retrieve request parameters
-		$data = $request->get_params();
+        $data = $request->get_params();
 
         // get filtered Posts
         $post_args = array(
