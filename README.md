@@ -99,7 +99,7 @@ Controller::register([
         $data = $request->get_params();
 
         // get filtered Posts
-        $post_args = array(
+        $post_args = [
             "numberposts" => intval($data["numberposts"]),
             "post_status" => "publish",
             "post_type" => "post",
@@ -113,7 +113,7 @@ Controller::register([
                     "terms" => $data["terms"]
                 ]
             ]
-        );
+        ];
 
         // return your Posts as html by calling render.
         return Controller::render('post-details.twig', ['post' => get_posts($post_args)]);
