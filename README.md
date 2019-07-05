@@ -6,9 +6,7 @@
 ### Requirements
 * Wordpress
 * Composer
-* npm
-* Nodejs
-* Yarn
+* npm | yarn
 
 ### Installation
 
@@ -22,7 +20,7 @@ $ npm install
 Now setup webpack and you're ready to go.
 
 ### Webpack-Encore
-```
+```php
 # compile assets once
 $ yarn encore dev
 
@@ -33,7 +31,7 @@ $ yarn encore dev --watch
 $ yarn encore production
 ```
 Change "WORDPRESS" to your sitename.
-```
+```js
 // webpack.config.js
 if (!Encore.isProduction()) {
     const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
@@ -50,6 +48,17 @@ if (!Encore.isProduction()) {
 }
 ```
 Finally, activate the Timber plugin!
+
+### Timber-Cache
+Caching is now enabled by default
+```php
+// functions.php
+
+/**
+ * Cache the Twig File (but not the data)
+ */
+Timber::$cache = true;
+```
 
 ### Theme
 You can manage all needed Theme settings in
@@ -75,7 +84,7 @@ src/Taxonomy/car_brand.php
 
 Register a Route
 
-```
+```php
 // src/Controller/DefaultController.php
 <?php
 
@@ -83,12 +92,31 @@ use lib\Controller;
 
 Controller::register([
 	'methods' => ['POST'],
-	'route' => 'post/all',
-	'name' => 'get_em_all',
+	'route' => 'post/by',
+	'name' => 'get_posts_by',
 	'callback' => function (WP_REST_Request $request) {
+        // retrieve request parameters
 		$data = $request->get_params();
 
-		return $data;
+        // get filtered Posts
+        $post_args = array(
+            "numberposts" => intval($data["numberposts"]),
+            "post_status" => "publish",
+            "post_type" => "post",
+            "orderby" => "date",
+            "order" => "DESC",
+            "tax_query" => [
+                "relation" => "AND",
+                [
+                    "taxonomy" => $data["taxonomy"],
+                    "field" => 'term_id',
+                    "terms" => $data["terms"]
+                ]
+            ]
+        );
+
+        // return your Posts as html by calling render.
+        return Controller::render('post-details.twig', ['post' => get_posts($post_args)]);
 	},
 ]);
 ```

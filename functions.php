@@ -21,6 +21,11 @@ if ( ! class_exists( 'Timber' ) ) {
 Timber::$dirname = array( 'templates', 'views' );
 
 /**
+ * Cache the Twig File (but not the data)
+ */
+Timber::$cache = true;
+
+/**
  * By default, Timber does NOT autoescape values.
  */
 Timber::$autoescape = false;
