@@ -117,7 +117,7 @@ Controller::register([
 
         // return your Posts as html by calling render.
         return Controller::render('post-details.twig', ['post' => get_posts($post_args)]);
-	},
+    },
 ]);
 ```
 Just assign a Name, a Route Name and an callback (which handles the request) and if you have to render additional data, you can simply call render() ;-)
