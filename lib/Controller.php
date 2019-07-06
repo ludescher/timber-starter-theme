@@ -2,26 +2,29 @@
 
 namespace lib;
 
+use Symfony\Component\Routing\Generator\UrlGenerator;
+
 class Controller {
-	public static function register($route) {
+    function __construct() {
+    }
 
-		add_action('rest_api_init', function () use ($route) {
-			register_rest_route('api/', $route['route'], [
-				'methods' => $route['methods'],
-				'callback' => $route['callback'],
-				'permission_callback' => isset($route['permission_callback']) ? $route['permission_callback'] : null,
-				'args' => isset($route['params']) ? $route['params'] : [],
-			]);
-		});
+    private function generateUrl($route_name, $options = []) {
 
-		add_filter('timber_context', function ($data) use ($route) {
-			$data[$route['name']] = site_url() . '/wp-json/api/' . $route['route'];
+    }
 
-			return $data;
-		});
-	}
+    private function render($twig_file_name, $options = []) {
 
-	public function render($twig, $params = NULL) {
-		return Timber::compile($twig, $params);
-	}
+    }
+
+    private function redirectToRoute($route_name, $options = []) {
+
+    }
+
+    private function redirect($url) {
+
+    }
+
+    private function getUser() {
+        
+    }
 }

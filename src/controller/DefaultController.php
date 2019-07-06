@@ -1,14 +1,19 @@
 <?php
 
+namespace src\Controller;
+
 use lib\Controller;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
-Controller::register([
-	'methods' => ['POST'],
-	'route' => 'post/all',
-	'name' => 'get_em_all',
-	'callback' => function (WP_REST_Request $request) {
-		$data = $request->get_params();
+class DefaultController extends Controller {
+    /**
+     * @Route("/default", name="default")
+     */
+    public static function index(array $request) {
+        // $data = $request->request->get("email");
 
-		return $data;
-	},
-]);
+        // echo json_encode($data);
+        echo json_encode($request);
+    }
+}
