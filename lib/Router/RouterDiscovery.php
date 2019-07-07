@@ -3,15 +3,28 @@
 namespace lib\Router;
 
 use src\Utils\PathHelper;
-use lib\Annotation\Route;
 use Symfony\Component\Finder\Finder;
 use Doctrine\Common\Annotations\FileCacheReader;
 
 class RouterDiscovery {
-
+    /**
+     * @var FileCacheReader
+     */
     private $annotationReader;
+    
+    /**
+     * @var string
+     */
     private $path;
+
+    /**
+     * @var string
+     */
     private $namespace;
+    
+    /**
+     * @var array
+     */
     private $routes = [];
 
     public function __construct(FileCacheReader $reader) {
@@ -19,7 +32,12 @@ class RouterDiscovery {
         $this->path = PathHelper::replaceSeparator(get_template_directory() . '/src/Controller');
         $this->namespace = "src\Controller";
     }
-    
+
+    /**
+     * Discover and return a list of available Routes.
+     * 
+     * @return array
+     */
     public function getRoutes() {
         if (!$this->routes) {
             $this->discoverRoutes();
@@ -27,6 +45,9 @@ class RouterDiscovery {
         return $this->routes;
     }
 
+    /**
+     * Discover all Routes
+     */
     private function discoverRoutes() {
         $finder = new Finder();
         $finder->files()->in($this->path);
@@ -47,6 +68,11 @@ class RouterDiscovery {
                             "method" => $method->getName(),
                             "route" => $route
                         ];
+                        // add Routes to global Timber Context
+                        add_filter('timber_context', function ($data) use ($route) {
+                            $data[$route->getName()] = site_url() . $route->getPath();
+                            return $data;
+                        });
                     }
                 }
             }

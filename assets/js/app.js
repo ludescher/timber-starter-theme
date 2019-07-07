@@ -1,6 +1,8 @@
 require('../scss/app.scss');
 
-fetch('http://timber.theme.test:3000/foo/3', {
+let link = document.getElementsByClassName("js-get-link")[0].getAttribute("data-link");
+
+fetch(link, {
     method: 'POST',
     headers: {
         'accept': 'application/json',
@@ -12,6 +14,7 @@ fetch('http://timber.theme.test:3000/foo/3', {
     }),
 })
 .then((response) => {
+    console.log(response);
     return response.json();
 })
 .then((myJson) => {
