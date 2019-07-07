@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Timber starter-theme
  */
@@ -44,6 +45,3 @@ if (file_exists($autoload_path)) {
 } else {
 	echo '<div class="error"><p>Autoload is missing. Make sure you\'ve installed all composer packages.</p></div>';
 }
-
-// Symfony Routing
-include_once(__DIR__ . '/lib/Router.php');

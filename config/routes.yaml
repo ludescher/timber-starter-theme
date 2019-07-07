@@ -1,9 +1,0 @@
-foo_route:
-    path:     /foo
-    controller: src\Controller\DefaultController::index
- 
-foo_placeholder_route:
-    path:     /foo/{id}
-    controller: src\Controller\DefaultController::index
-    requirements:
-        id: '[0-9]+'

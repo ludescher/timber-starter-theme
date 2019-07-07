@@ -1,6 +1,12 @@
 <?php
 
 use Symfony\Component\Finder\Finder;
+use src\Utils\PathHelper;
+use lib\Router\RouterDiscovery;
+use lib\Router\RouterManager;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\FileCacheReader;
 
 class StarterSite extends Timber\Site {
 	/**
@@ -8,8 +14,27 @@ class StarterSite extends Timber\Site {
 	 */
 	private $finder;
 
+	/**
+	 * @var RouterManager
+	 */
+	private $routerManager;
+
 	public function __construct() {
 		$this->finder = new Finder();
+
+		AnnotationRegistry::registerFile(PathHelper::replaceSeparator(get_template_directory() . "/lib/Annotation/Route.php"));
+		AnnotationRegistry::registerAutoloadNamespace("lib\Annotation", PathHelper::replaceSeparator(get_template_directory() . '/lib'));
+
+		$reader = new FileCacheReader(
+			new AnnotationReader(),
+			PathHelper::replaceSeparator(get_template_directory() . '/var/cache/'),
+			$debug = true
+		);
+
+		$discovery = new RouterDiscovery($reader);
+
+		$this->routerManager = new RouterManager($discovery);
+		dump($this->routerManager->getRoutes());
 
 		//Register Actions / Filters
 		add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
@@ -24,7 +49,7 @@ class StarterSite extends Timber\Site {
 
 	/** This is where you can register ... */
 	public function register_src() {
-		$path = dirname(__DIR__) . '/src/';
+		$path = PathHelper::replaceSeparator(dirname(__DIR__) . '/src/');
 
 		if (file_exists($path)) {
 			$this->finder->files()
