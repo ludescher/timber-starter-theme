@@ -73,9 +73,22 @@ class RouterDiscovery {
                             $data[$route->getName()] = site_url() . $route->getPath();
                             return $data;
                         });
+                        \Routes::map($route->getPath(),[$class,$method->getName()]);
                     }
                 }
             }
         }
     }
 }
+
+
+	/**
+	 * @param string $route         A string to match (ex: 'myfoo')
+	 * @param callable $callback    A function to run, examples:
+	 *                              Routes::map('myfoo', 'my_callback_function');
+	 *                              Routes::map('mybaq', array($my_class, 'method'));
+	 *                              Routes::map('myqux', function() {
+	 *                                  //stuff goes here
+	 *                              });
+	 */
+    // public static function map($route, $callback, $args = array()) {

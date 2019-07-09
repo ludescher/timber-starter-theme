@@ -22,6 +22,13 @@ class StarterSite extends Timber\Site {
 	public function __construct() {
 		$this->finder = new Finder();
 
+
+
+
+
+
+		
+
 		AnnotationRegistry::registerFile(PathHelper::replaceSeparator(get_template_directory() . "/lib/Annotation/Route.php"));
 		AnnotationRegistry::registerAutoloadNamespace("lib\Annotation", PathHelper::replaceSeparator(get_template_directory() . '/lib'));
 
@@ -35,6 +42,14 @@ class StarterSite extends Timber\Site {
 
 		$this->routerManager = new RouterManager($discovery);
 		dump($this->routerManager->getRoutes());
+
+
+
+
+
+
+
+
 
 		//Register Actions / Filters
 		add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
