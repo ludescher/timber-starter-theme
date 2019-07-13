@@ -3,9 +3,7 @@
 use Symfony\Component\Finder\Finder;
 use src\Utils\PathHelper;
 use lib\Router\RouterDiscovery;
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\FileCacheReader;
+use lib\Manager\AnnotationManager;
 use Timber\Site;
 
 class StarterSite extends Site {
@@ -17,35 +15,33 @@ class StarterSite extends Site {
 	public function __construct() {
 		$this->finder = new Finder();
 		
-		AnnotationRegistry::registerFile(PathHelper::replaceSeparator(get_template_directory() . "/lib/Annotation/Route.php"));
-		AnnotationRegistry::registerAutoloadNamespace("lib\Annotation", PathHelper::replaceSeparator(get_template_directory() . '/lib'));
-
-		$reader = new FileCacheReader(
-			new AnnotationReader(),
-			PathHelper::replaceSeparator(get_template_directory() . '/var/cache/routes/'),
-			$debug = WP_DEBUG
-		);
-
-		$discovery = new RouterDiscovery(
-			$reader,
-			PathHelper::replaceSeparator(get_template_directory() . '/src/Controller'),
-			"src\Controller"
-		);
-		$discovery->discover();
-		
-
-
-
-		
 		//Register Actions / Filters
 		add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
 		add_filter( 'timber_context', array( $this, 'add_to_context' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_and_styles' ), 999);
 
 		// Register Custom PHP-Files
+		$this->register_router();
 		$this->register_menus();
 		$this->register_src();
 		parent::__construct();
+	}
+
+	public function register_router() {
+		$annotationManager = new AnnotationManager(
+			PathHelper::replaceSeparator(get_template_directory() . '/var/cache/routes/'),
+			PathHelper::replaceSeparator(get_template_directory() . "/lib/Annotation/Route.php"),
+			"lib\Annotation",
+			PathHelper::replaceSeparator(get_template_directory() . '/lib')
+		);
+
+		$discovery = new RouterDiscovery(
+			$annotationManager->initAnnotationReader(),
+			PathHelper::replaceSeparator(get_template_directory() . '/src/Controller'),
+			"src\Controller",
+			"timber"
+		);
+		$discovery->discover();
 	}
 
 	/** This is where you can register ... */

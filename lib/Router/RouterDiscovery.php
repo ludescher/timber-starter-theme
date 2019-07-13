@@ -50,13 +50,14 @@ class RouterDiscovery {
      * @param FileCacheReader $reader
      * @param string $path
      * @param string $namespace
+     * @param string $prefix
      */
-    public function __construct(FileCacheReader $reader, string $path, string $namespace) {
+    public function __construct(FileCacheReader $reader, string $path, string $namespace, string $prefix) {
         $this->annotationReader = $reader;
         $this->path = $path;
         $this->namespace = $namespace;
         $this->finder = new Finder();
-        $this->prefix = "timber";
+        $this->prefix = $prefix;
     }
 
     /**
