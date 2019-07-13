@@ -1,6 +1,9 @@
 require('../scss/app.scss');
 
-let link = document.getElementsByClassName("js-get-link")[0].getAttribute("data-link");
+// let link = document.getElementsByClassName("js-get-link")[0].getAttribute("data-link");
+let link = "http://timber.theme.test/wp-json/timber/auth/logout/5";
+
+console.log("Call Link: ", link);
 
 fetch(link, {
     method: 'POST',
@@ -14,12 +17,11 @@ fetch(link, {
     }),
 })
 .then((response) => {
-    console.log(response);
     return response.json();
 })
 .then((myJson) => {
-    console.log(myJson);
+    console.log("myJson", myJson);
 })
 .catch((error) => {
-    console.error(error);
+    console.log("Error: ", error);
 });

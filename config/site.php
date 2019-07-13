@@ -3,54 +3,40 @@
 use Symfony\Component\Finder\Finder;
 use src\Utils\PathHelper;
 use lib\Router\RouterDiscovery;
-use lib\Router\RouterManager;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\FileCacheReader;
+use Timber\Site;
 
-class StarterSite extends Timber\Site {
+class StarterSite extends Site {
 	/**
 	 * @var Finder
 	 */
 	private $finder;
 
-	/**
-	 * @var RouterManager
-	 */
-	private $routerManager;
-
 	public function __construct() {
 		$this->finder = new Finder();
-
-
-
-
-
-
 		
-
 		AnnotationRegistry::registerFile(PathHelper::replaceSeparator(get_template_directory() . "/lib/Annotation/Route.php"));
 		AnnotationRegistry::registerAutoloadNamespace("lib\Annotation", PathHelper::replaceSeparator(get_template_directory() . '/lib'));
 
 		$reader = new FileCacheReader(
 			new AnnotationReader(),
-			PathHelper::replaceSeparator(get_template_directory() . '/var/cache/'),
-			$debug = true
+			PathHelper::replaceSeparator(get_template_directory() . '/var/cache/routes/'),
+			$debug = WP_DEBUG
 		);
 
-		$discovery = new RouterDiscovery($reader);
-
-		$this->routerManager = new RouterManager($discovery);
-		dump($this->routerManager->getRoutes());
-
-
-
-
-
+		$discovery = new RouterDiscovery(
+			$reader,
+			PathHelper::replaceSeparator(get_template_directory() . '/src/Controller'),
+			"src\Controller"
+		);
+		$discovery->discover();
+		
 
 
 
-
+		
 		//Register Actions / Filters
 		add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
 		add_filter( 'timber_context', array( $this, 'add_to_context' ) );
