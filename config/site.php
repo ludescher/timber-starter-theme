@@ -2,7 +2,7 @@
 
 use Symfony\Component\Finder\Finder;
 use src\Utils\PathHelper;
-use lib\Router\RouterDiscovery;
+use lib\Manager\RouterManager;
 use lib\Manager\AnnotationManager;
 use Timber\Site;
 
@@ -35,7 +35,7 @@ class StarterSite extends Site {
 			PathHelper::replaceSeparator(get_template_directory() . '/lib')
 		);
 
-		$discovery = new RouterDiscovery(
+		$discovery = new RouterManager(
 			$annotationManager->initAnnotationReader(),
 			PathHelper::replaceSeparator(get_template_directory() . '/src/Controller'),
 			"src\Controller",

@@ -1,7 +1,7 @@
 require('../scss/app.scss');
 
 // let link = document.getElementsByClassName("js-get-link")[0].getAttribute("data-link");
-let link = "http://timber.theme.test/wp-json/timber/auth/logout/5";
+let link = "http://timber.theme.test/wp-json/timber/test/99/list/55";
 
 console.log("Call Link: ", link);
 

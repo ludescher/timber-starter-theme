@@ -1,6 +1,6 @@
 <?php
 
-namespace lib\Router;
+namespace lib\Manager;
 
 use lib\Annotation\Route;
 use src\Utils\PathHelper;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Route as SymfonyRoute;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-class RouterDiscovery {
+class RouterManager {
     /**
      * @var FileCacheReader
      */
