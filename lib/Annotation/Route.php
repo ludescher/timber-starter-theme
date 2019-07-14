@@ -10,9 +10,24 @@ namespace lib\Annotation;
  *
  */
 class Route {
+	/**
+	 * @var String
+	 */
     private $path;
+    
+	/**
+	 * @var String
+	 */
     private $name;
+    
+	/**
+	 * @var Array
+	 */
     private $options = [];
+    
+	/**
+	 * @var String|Array
+	 */
     private $methods = [];
 
     /**
@@ -40,43 +55,59 @@ class Route {
         }
     }
 
-    public function setPath($path)
-    {
+    /**
+     * @param String $path
+     */
+    public function setPath(string $path) {
         $this->path = $path;
     }
 
-    public function getPath()
-    {
+    /**
+     * @return String
+     */
+    public function getPath():string {
         return $this->path;
     }
 
-    public function setName($name)
-    {
+    /**
+     * @param String $name
+     */
+    public function setName($name){
         $this->name = $name;
     }
 
-    public function getName()
-    {
+    /**
+     * @return String
+     */
+    public function getName():string {
         return $this->name;
     }
 
-    public function setOptions($options)
-    {
+    /**
+     * @param Array $options
+     */
+    public function setOptions(array $options) {
         $this->options = $options;
     }
 
-    public function getOptions()
-    {
+    /**
+     * @return Array
+     */
+    public function getOptions():array {
         return $this->options;
     }
 
-    public function setMethods($methods)
-    {
+    /**
+     * @param String|Array $methods
+     */
+    public function setMethods($methods) {
         $this->methods = \is_array($methods) ? $methods : [$methods];
     }
 
-    public function getMethods()
-    {
+    /**
+     * @return String|Array
+     */
+    public function getMethods() {
         return $this->methods;
     }
 }

@@ -14,22 +14,89 @@ class StarterSite extends Site {
 
 	public function __construct() {
 		$this->finder = new Finder();
-		
 		//Register Actions / Filters
 		add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
 		add_filter( 'timber_context', array( $this, 'add_to_context' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_and_styles' ), 999);
-		
-		// add_action( 'init', array( $this, 'register_post_types' ) );
-		// add_action( 'init', array( $this, 'register_taxonomies' ) );
-
-		// Register Custom PHP-Files
-		$this->register_router();
-		$this->register_timber_extensions();
-		$this->register_menus();
+		add_action( 'init', array( $this, 'register_router'));
+		add_action( 'init', array( $this, 'register_timber_extensions'));
+		add_action( 'init', array( $this, 'register_menus'));
+		add_action( 'init', array( $this, 'register_post_types' ) );
+		add_action( 'init', array( $this, 'register_taxonomies' ) );
+		add_action( 'init', array( $this, 'register_hooks' ) );
+		add_action( 'init', array( $this, 'register_metaboxes' ) );
 		parent::__construct();
 	}
 
+	/**
+	 * This is where you can register all PostTypes
+	 */
+	public function register_post_types() {
+		$path = dirname(__DIR__) . '/src/PostType/';
+		if (file_exists($path)) {
+			$this->finder->files()
+				->in($path)
+				->name('*.php')
+				->notName(basename(__FILE__));
+			foreach ($this->finder as $file) {
+				require_once $file->getRealPath();
+			}
+		}
+	}
+
+	/**
+	 * This is where you can register all Taxonomies
+	 */
+	public function register_taxonomies() {
+		$path = dirname(__DIR__) . '/src/Taxonomy/';
+		if (file_exists($path)) {
+			$this->finder->files()
+				->in($path)
+				->name('*.php')
+				->notName(basename(__FILE__));
+			foreach ($this->finder as $file) {
+				require_once $file->getRealPath();
+			}
+		}
+	}
+
+	/**
+	 * This is where you can register all Hooks
+	 */
+	public function register_hooks() {
+		$path = dirname(__DIR__) . '/src/Hooks/';
+		if (file_exists($path)) {
+			$this->finder->files()
+				->in($path)
+				->name('*.php')
+				->notName(basename(__FILE__));
+			foreach ($this->finder as $file) {
+				require_once $file->getRealPath();
+			}
+		}
+	}
+
+	/**
+	 * This is where you can register Metaboxes
+	 */
+	public function register_metaboxes() {
+		$path = dirname(__DIR__) . '/src/Metaboxes/';
+		if (file_exists($path)) {
+			$this->finder->files()
+				->in($path)
+				->name('*.php')
+				->notName(basename(__FILE__));
+			foreach ($this->finder as $file) {
+				require_once $file->getRealPath();
+			}
+		}
+	}
+
+	/**
+	 * Init Annotaion
+	 * cache Routes or read from Cache
+	 * add all Routes to $GLOBALS['routes']
+	 */
 	public function register_router() {
 		$annotationManager = new AnnotationManager(
 			templatePath('/var/cache/routes/'),
@@ -46,6 +113,10 @@ class StarterSite extends Site {
 		$routerManager->discover();
 	}
 
+	/**
+	 * add new functionality to twig
+	 * e.g. url() path() 
+	 */
 	public function register_timber_extensions() {
 		new AppExtension();
 	}
@@ -119,8 +190,11 @@ class StarterSite extends Site {
 		add_theme_support( 'menus' );
 	}
 
+	/**
+	 * Register styles
+	 * used to register all Webpack resources
+	 */
 	public function enqueue_scripts_and_styles() {
-		// Register styles
 
 		$app_css_path = $this->assets('app.css');
 		$runtime_js_path = $this->assets('runtime.js');
@@ -144,6 +218,12 @@ class StarterSite extends Site {
 		wp_enqueue_script('template-scripts');
 	}
 
+	/**
+	 * get Assets by Key
+	 * 
+	 * @param String $key
+	 * @return String
+	 */
 	public function assets($key) {
 		$path = get_template_directory() . '/public/manifest.json';
 

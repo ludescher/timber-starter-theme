@@ -26,17 +26,25 @@ class AnnotationManager {
      * @var String
      */
 	private $annotation_path;
-	
+
+	/**
+	 * @param String $cache_path
+	 * @param String $route_path
+	 * @param String $annotation_namespace
+	 * @param String $annotation_path
+	 */
     public function __construct(string $cache_path, string $route_path, string $annotation_namespace, string $annotation_path) {
 		$this->cache_path = $cache_path;
 		$this->route_path = $route_path;
 		$this->annotation_namespace = $annotation_namespace;
 		$this->annotation_path = $annotation_path;
-
 		AnnotationRegistry::registerFile($this->route_path);
 		AnnotationRegistry::registerAutoloadNamespace($this->annotation_namespace, $this->annotation_path);
 	}
 
+	/**
+	 * @return FileCacheReader
+	 */
     public function initAnnotationReader():FileCacheReader {
 		return new FileCacheReader(
 			new AnnotationReader(),

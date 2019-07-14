@@ -10,6 +10,8 @@ class DefaultController extends Controller {
      * @Route("/post/{id}", name="render_post")
      */
     public function renderPostAction(\WP_REST_Request $request) {
+        $id = $request->get_params("id");
+
         return $this->render("tease.twig");
     }
     
@@ -27,6 +29,8 @@ class DefaultController extends Controller {
      * @Route("/test/{id}", name="test")
      */
     public function testAction(\WP_REST_Request $request) {
+        $id = $request->get_params("id");
+
         return $this->redirectToRoute("default");
     }
 
@@ -34,13 +38,18 @@ class DefaultController extends Controller {
      * @Route("/test/{id}/list", name="test_list")
      */
     public function testListAction(\WP_REST_Request $request) {
-        return $this->redirect("https://www.google.at/?gws_rd=ssl");
+        $id = $request->get_params("id");
+
+        return $this->redirect("https://www.google.com");
     }
 
     /**
      * @Route("/test/{id}/list/{list}", name="test_list_item")
      */
     public function testListItemAction(\WP_REST_Request $request) {
+        $id = $request->get_params("id");
+        $list_id = $request->get_params("list");
+
         return [
             "method" => "logoutAction",
             "request" => $request->get_params(),
