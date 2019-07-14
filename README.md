@@ -80,7 +80,8 @@ src/Taxonomy/car_brand.php
 ```
 
 ### Controller
-> The Controller-Interface saves its Routes in a global variable. Therefore, you can access all routes the the new Twig-Functions url() and path().
+> The Controller-Interface saves its Routes in a global variable.
+> Therefore, you can access all routes the the new Twig-Functions url("routename") and path("routename").
 
 the new controller was heavily inspired by [symfony](https://symfony.com/doc/current/controller.html#a-simple-controller "symfony")
 
@@ -95,56 +96,39 @@ use lib\Annotation\Route;
 
 class DefaultController extends Controller {
     /**
-     * @Route("/test/{id}/list/{list}", name="test_list_item", methods={"GET"})
+     * @Route("/test/{id}/list/", name="test_list_item", methods={"GET"})
      */
     public function testListItemAction(\WP_REST_Request $request) {
         $id = $request->get_params("id");
-        $list_id = $request->get_params("list");
 
-        return [
-            "method" => "logoutAction",
-            "request" => $request->get_params(),    // POST parameters
-            "url" => $this->generateUrl("test_post", ["id" => 120]),
-            "user" => $this->getUser(),
-        ];
-
-        return $this->redirectToRoute("test_post");
-        
-        return $this->render("tease.twig");
-        
-        return $this->redirect("https://www.google.com");
+        return $this->render("post.twig", ["id" => $id]);
     }
-
-    /**
-     * @Route("/test/post/{id}", name="test_post", methods={"GET"})
-     */
-    public function testPostAction(\WP_REST_Request $request) {[...]}
 }
 ```
 With the new Controller you have access to
 ```php
-    // redirect the user to another page
-    $this->redirectToRoute("routename");
+// redirect the user to another page
+$this->redirectToRoute("routename");
 ```
 
 ```php
-    // Passes data to a Twig file and returns the output.
-    $this->render("filename");
+// Passes data to a Twig file and returns the output.
+$this->render("filename");
 ```
 
 ```php
-    // redirect the user to another page
-    $this->redirect("url");
+// redirect the user to another page
+$this->redirect("url");
 ```
 
 ```php
-    // get current user
-    // get user by id
-    $this->getUser();
+// get current user
+// get user by id
+$this->getUser();
 ```
 
 ```php
-    // generate the url to another page
-    $this->generateUrl("routename");
+// generate the url to another page
+$this->generateUrl("routename");
 ```
 and much more ;-)
