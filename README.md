@@ -79,11 +79,8 @@ Same goes for taxonomies.
 src/Taxonomy/car_brand.php
 ```
 
-### Controller
-> The Controller-Interface saves its Routes in a global variable.
-> Therefore, you can access all routes the the new Twig-Functions url("routename") and path("routename").
-
-the new controller was heavily inspired by [symfony](https://symfony.com/doc/current/controller.html#a-simple-controller "symfony")
+### Controller ( heavily inspired by [symfony](https://symfony.com/doc/current/controller.html#a-simple-controller "symfony"))
+> The Controller-Interface saves its Routes in a global variable, you can render those routes with the two new Twig-Functions url("routename") and path("routename").
 
 ```php
 // src/Controller/DefaultController.php
