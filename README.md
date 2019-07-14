@@ -79,7 +79,7 @@ Same goes for taxonomies.
 src/Taxonomy/car_brand.php
 ```
 
-### AJAX Controller Interface
+### Symfony like Controller
 > The Controller-Interface saves its Routes in the global Twig Context. Therefore, you can access the route in all twig files.
 
 Register a Route
@@ -88,36 +88,37 @@ Register a Route
 // src/Controller/DefaultController.php
 <?php
 
+namespace src\Controller;
+
 use lib\Controller;
+use lib\Annotation\Route;
 
-Controller::register([
-    'methods' => ['POST'],
-    'route' => 'post/by',
-    'name' => 'get_posts_by',
-    'callback' => function (WP_REST_Request $request) {
-        // retrieve request parameters
-        $data = $request->get_params();
+class DefaultController extends Controller {
+    /**
+     * @Route("/test/{id}/list/{list}", name="test_list_item", methods={"GET"})
+     */
+    public function testListItemAction(\WP_REST_Request $request) {
+        $id = $request->get_params("id");
+        $list_id = $request->get_params("list");
 
-        // get filtered Posts
-        $post_args = [
-            "numberposts" => intval($data["numberposts"]),
-            "post_status" => "publish",
-            "post_type" => "post",
-            "orderby" => "date",
-            "order" => "DESC",
-            "tax_query" => [
-                "relation" => "AND",
-                [
-                    "taxonomy" => $data["taxonomy"],
-                    "field" => 'term_id',
-                    "terms" => $data["terms"]
-                ]
-            ]
+        return [
+            "method" => "logoutAction",
+            "request" => $request->get_params(),    // POST parameters
+            "url" => $this->generateUrl("test_post", ["id" => 120]),
+            "user" => $this->getUser(),
         ];
 
-        // return your Posts as html by calling render.
-        return Controller::render('post-details.twig', ['post' => get_posts($post_args)]);
-    },
-]);
+        return $this->redirectToRoute("test_post");
+        
+        return $this->render("tease.twig");
+        
+        return $this->redirect("https://www.google.com");
+    }
+
+    /**
+     * @Route("/test/post/{id}", name="test_post", methods={"GET"})
+     */
+    public function testPostAction(\WP_REST_Request $request) {[...]}
+}
 ```
 Just assign a Name, a Route Name and an callback (which handles the request) and if you have to render additional data, you can simply call render() ;-)
