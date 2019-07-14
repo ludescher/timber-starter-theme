@@ -79,10 +79,10 @@ Same goes for taxonomies.
 src/Taxonomy/car_brand.php
 ```
 
-### Symfony like Controller
-> The Controller-Interface saves its Routes in the global Twig Context. Therefore, you can access the route in all twig files.
+### Controller
+> The Controller-Interface saves its Routes in a global variable. Therefore, you can access all routes the the new Twig-Functions url() and path().
 
-Register a Route
+the new controller was heavily inspired by [symfony](https://symfony.com/doc/current/controller.html#a-simple-controller "symfony")
 
 ```php
 // src/Controller/DefaultController.php
@@ -121,4 +121,30 @@ class DefaultController extends Controller {
     public function testPostAction(\WP_REST_Request $request) {[...]}
 }
 ```
-Just assign a Name, a Route Name and an callback (which handles the request) and if you have to render additional data, you can simply call render() ;-)
+With the new Controller you have access to
+```php
+    // redirect the user to another page
+    $this->redirectToRoute("routename");
+```
+
+```php
+    // Passes data to a Twig file and returns the output.
+    $this->render("filename");
+```
+
+```php
+    // redirect the user to another page
+    $this->redirect("url");
+```
+
+```php
+    // get current user
+    // get user by id
+    $this->getUser();
+```
+
+```php
+    // generate the url to another page
+    $this->generateUrl("routename");
+```
+and much more ;-)
