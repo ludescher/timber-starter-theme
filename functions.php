@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Timber starter-theme
  */
@@ -43,4 +44,8 @@ if (file_exists($autoload_path)) {
 	new StarterSite();
 } else {
 	echo '<div class="error"><p>Autoload is missing. Make sure you\'ve installed all composer packages.</p></div>';
+}
+
+function templatePath($path) {
+	return src\Utils\PathHelper::replaceSeparator(get_template_directory() . $path);
 }

@@ -79,45 +79,53 @@ Same goes for taxonomies.
 src/Taxonomy/car_brand.php
 ```
 
-### AJAX Controller Interface
-> The Controller-Interface saves its Routes in the global Twig Context. Therefore, you can access the route in all twig files.
-
-Register a Route
+### Controller (heavily inspired by [symfony](https://symfony.com/doc/current/controller.html#a-simple-controller "symfony"))
+> The Controller-Interface saves its Routes in a global variable, you can render those routes with the two new Twig-Functions url("routename") and path("routename").
 
 ```php
 // src/Controller/DefaultController.php
 <?php
 
+namespace src\Controller;
+
 use lib\Controller;
+use lib\Annotation\Route;
 
-Controller::register([
-    'methods' => ['POST'],
-    'route' => 'post/by',
-    'name' => 'get_posts_by',
-    'callback' => function (WP_REST_Request $request) {
-        // retrieve request parameters
-        $data = $request->get_params();
+class DefaultController extends Controller {
+    /**
+     * @Route("/test/{id}/list/", name="test_list_item", methods={"GET"})
+     */
+    public function testListItemAction(\WP_REST_Request $request) {
+        $id = $request->get_params("id");
 
-        // get filtered Posts
-        $post_args = [
-            "numberposts" => intval($data["numberposts"]),
-            "post_status" => "publish",
-            "post_type" => "post",
-            "orderby" => "date",
-            "order" => "DESC",
-            "tax_query" => [
-                "relation" => "AND",
-                [
-                    "taxonomy" => $data["taxonomy"],
-                    "field" => 'term_id',
-                    "terms" => $data["terms"]
-                ]
-            ]
-        ];
-
-        // return your Posts as html by calling render.
-        return Controller::render('post-details.twig', ['post' => get_posts($post_args)]);
-    },
-]);
+        return $this->render("post.twig", ["id" => $id]);
+    }
+}
 ```
-Just assign a Name, a Route Name and an callback (which handles the request) and if you have to render additional data, you can simply call render() ;-)
+With the new Controller you have access to
+```php
+// redirect the user to another page
+$this->redirectToRoute("routename");
+```
+
+```php
+// Passes data to a Twig file and returns the output.
+$this->render("filename");
+```
+
+```php
+// redirect the user to another page
+$this->redirect("url");
+```
+
+```php
+// get current user
+// get user by id
+$this->getUser();
+```
+
+```php
+// generate the url to another page
+$this->generateUrl("routename");
+```
+and much more ;-)

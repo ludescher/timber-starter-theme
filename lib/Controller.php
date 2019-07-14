@@ -2,26 +2,69 @@
 
 namespace lib;
 
+use src\Utils\PathHelper;
+use lib\Manager\RouterManager;
+use Timber\Timber;
+use Timber\User;
+
 class Controller {
-	public static function register($route) {
 
-		add_action('rest_api_init', function () use ($route) {
-			register_rest_route('api/', $route['route'], [
-				'methods' => $route['methods'],
-				'callback' => $route['callback'],
-				'permission_callback' => isset($route['permission_callback']) ? $route['permission_callback'] : null,
-				'args' => isset($route['params']) ? $route['params'] : [],
-			]);
-		});
+    /**
+     * Compile a Twig file.
+	 *
+	 * Passes data to a Twig file and returns the output.
+     * 
+     * @param String $twig_file_name
+     * @param Array $options
+     * @return String
+     */
+    public function render(string $twig_file_name, array $options = []) {
+        return Timber::compile($twig_file_name, $options);
+    }
 
-		add_filter('timber_context', function ($data) use ($route) {
-			$data[$route['name']] = site_url() . '/wp-json/api/' . $route['route'];
+    /**
+     * redirect the user to another page
+     * 
+     * @param String $routename
+     * @param Array $args
+     */
+    public function redirectToRoute(string $routename, $args = []) {
+        $this->redirect(
+            RouterManager::getRouteByNameAndOptions($routename, $args)
+        );
+    }
 
-			return $data;
-		});
-	}
+    /**
+     * redirect the user to another page
+     * 
+     * @param String $url
+     * @param Bool $permanent
+     */
+    public function redirect(string $url, bool $permanent = false) {
+        header('Location: ' . $url, true, $permanent ? 301 : 302);
+        exit();
+    }
 
-	public function render($twig, $params = NULL) {
-		return Timber::compile($twig, $params);
-	}
+    /**
+     * get current user
+     * get user by id
+     * 
+     * @param Int $id
+     * @return User
+     */
+    public function getUser($id = false) {
+        $user_id = apply_filters( 'determine_current_user', false );
+        return new User($user_id);
+    }
+
+    /**
+     * generate the url to another page
+     * 
+     * @param String $routename
+     * @param Array $args
+     * @return String
+     */
+    public function generateUrl(string $routename, array $args = []):string {
+        return RouterManager::getRouteByNameAndOptions($routename, $args);
+    }
 }
