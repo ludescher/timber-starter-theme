@@ -20,8 +20,12 @@ class PathHelper {
         return $result;
     }
 
-    public function replaceParameters(string $path) {
+    public static function replaceParameters(string $path) {
         $subst = '(?P<$1>\\d+)';
         return preg_replace('/{(-?[a-zA-Z]+)}/', $subst, $path);
+    }
+
+    public static function replaceWithParameters(string $path, array $args) {
+        return preg_replace_callback('/{(-?[a-zA-Z]+)}/',function($match) use ($args) {return $args[$match[1]];}, $path);
     }
 }

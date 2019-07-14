@@ -1,9 +1,9 @@
 <?php
 
 use Symfony\Component\Finder\Finder;
-use src\Utils\PathHelper;
-use lib\Manager\RouterManager;
 use lib\Manager\AnnotationManager;
+use lib\Manager\RouterManager;
+use src\Twig\AppExtension;
 use Timber\Site;
 
 class StarterSite extends Site {
@@ -19,45 +19,35 @@ class StarterSite extends Site {
 		add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
 		add_filter( 'timber_context', array( $this, 'add_to_context' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_and_styles' ), 999);
+		
+		// add_action( 'init', array( $this, 'register_post_types' ) );
+		// add_action( 'init', array( $this, 'register_taxonomies' ) );
 
 		// Register Custom PHP-Files
 		$this->register_router();
+		$this->register_timber_extensions();
 		$this->register_menus();
-		$this->register_src();
 		parent::__construct();
 	}
 
 	public function register_router() {
 		$annotationManager = new AnnotationManager(
-			PathHelper::replaceSeparator(get_template_directory() . '/var/cache/routes/'),
-			PathHelper::replaceSeparator(get_template_directory() . "/lib/Annotation/Route.php"),
+			templatePath('/var/cache/routes/'),
+			templatePath("/lib/Annotation/Route.php"),
 			"lib\Annotation",
-			PathHelper::replaceSeparator(get_template_directory() . '/lib')
+			templatePath('/lib')
 		);
-
-		$discovery = new RouterManager(
+		$routerManager = new RouterManager(
 			$annotationManager->initAnnotationReader(),
-			PathHelper::replaceSeparator(get_template_directory() . '/src/Controller'),
+			templatePath('/src/Controller'),
 			"src\Controller",
 			"timber"
 		);
-		$discovery->discover();
+		$routerManager->discover();
 	}
 
-	/** This is where you can register ... */
-	public function register_src() {
-		$path = PathHelper::replaceSeparator(dirname(__DIR__) . '/src/');
-
-		if (file_exists($path)) {
-			$this->finder->files()
-				->in($path)
-				->name('*.php')
-				->notName(basename(__FILE__));
-
-			foreach ($this->finder as $file) {
-				require_once $file->getRealPath();
-			}
-		}
+	public function register_timber_extensions() {
+		new AppExtension();
 	}
 
 	/** This is where you can register menus. */

@@ -7,12 +7,19 @@ use lib\Annotation\Route;
 
 class DefaultController extends Controller {
     /**
+     * @Route("/post/{id}", name="render_post")
+     */
+    public function renderPostAction(\WP_REST_Request $request) {
+        return $this->render("tease.twig");
+    }
+    
+    /**
      * @Route("/default", name="default")
      */
     public function defaultAction(\WP_REST_Request $request) {
         return [
             "method" => "logoutAction",
-            "data" => $request->get_params()
+            "user" => $this->getUser(),
         ];
     }
 
@@ -20,20 +27,14 @@ class DefaultController extends Controller {
      * @Route("/test/{id}", name="test")
      */
     public function testAction(\WP_REST_Request $request) {
-        return [
-            "method" => "logoutAction",
-            "data" => $request->get_params()
-        ];
+        return $this->redirectToRoute("default");
     }
 
     /**
      * @Route("/test/{id}/list", name="test_list")
      */
     public function testListAction(\WP_REST_Request $request) {
-        return [
-            "method" => "logoutAction",
-            "data" => $request->get_params()
-        ];
+        return $this->redirect("https://www.google.at/?gws_rd=ssl");
     }
 
     /**
@@ -42,7 +43,9 @@ class DefaultController extends Controller {
     public function testListItemAction(\WP_REST_Request $request) {
         return [
             "method" => "logoutAction",
-            "data" => $request->get_params()
+            "request" => $request->get_params(),
+            "url" => $this->generateUrl("test", ["id" => 120]),
+            "user" => $this->getUser(),
         ];
     }
 }

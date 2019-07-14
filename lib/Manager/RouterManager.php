@@ -77,7 +77,7 @@ class RouterManager {
                     if (!$routes) {continue;}
                     $route = $routes[0];
                     $prefix = $this->prefix;
-                    $this->routes[$route->getName()] = $route->getPath();
+                    $GLOBALS['routes'][$route->getName()] = "/wp-json/$prefix" . $route->getPath();
                     add_action( 'rest_api_init', function() use ($method, $prefix, $route, $namespace) {$this->addToRouting($method, $prefix, $route, $namespace);});
                 }
             }
@@ -103,11 +103,22 @@ class RouterManager {
     }
 
     /**
-     * Get all Routes
+     * get Route with args
      * 
-     * @return Array
+     * @param String $routename
+     * @param Array $args
+     * @param Bool $relative
+     * @return String
      */
-    public function getRoutes():array {
-        return $this->routes;
+    public static function getRouteByNameAndOptions(string $routename, array $args = [], bool $relative = false):string {
+        $route = $GLOBALS['routes'][$routename] ?? false;
+        if (!$route) {
+            return $route;
+        }
+        if (sizeof($args) > 0) {
+            $path = PathHelper::replaceWithParameters($route, $args);
+            return ($relative) ? ($path) : (site_url() . $path);
+        }
+        return ($relative) ? ($route) : (site_url() . $route);
     }
 }

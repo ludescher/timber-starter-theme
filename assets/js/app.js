@@ -1,7 +1,6 @@
 require('../scss/app.scss');
 
-// let link = document.getElementsByClassName("js-get-link")[0].getAttribute("data-link");
-let link = "http://timber.theme.test/wp-json/timber/test/99/list/55";
+let link = document.getElementsByClassName("js-get-link")[0].getAttribute("data-link");
 
 console.log("Call Link: ", link);
 
@@ -20,8 +19,8 @@ fetch(link, {
     return response.json();
 })
 .then((myJson) => {
-    console.log("myJson", myJson);
+    console.log(myJson);
 })
 .catch((error) => {
-    console.log("Error: ", error);
+    console.error(error);
 });
