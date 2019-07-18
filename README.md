@@ -50,14 +50,14 @@ if (!Encore.isProduction()) {
 Finally, activate the Timber plugin!
 
 ### Timber-Cache
-Caching is now enabled by default
+Caching is now disabled by default
 ```php
 // functions.php
 
 /**
  * Cache the Twig File (but not the data)
  */
-Timber::$cache = true;
+Timber::$cache = false;
 ```
 
 ### Theme
