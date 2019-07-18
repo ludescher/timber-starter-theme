@@ -24,7 +24,7 @@ Timber::$dirname = array( 'templates', 'views' );
 /**
  * Cache the Twig File (but not the data)
  */
-Timber::$cache = true;
+Timber::$cache = false;
 
 /**
  * By default, Timber does NOT autoescape values.
