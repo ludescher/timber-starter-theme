@@ -82,7 +82,7 @@ src/Taxonomy/car_brand.php
 
 ### Controller (heavily inspired by [symfony](https://symfony.com/doc/current/controller.html#a-simple-controller "symfony"))
 Im using [Annotation](https://www.doctrine-project.org/projects/annotations.html) for handling routing names and paths.
-**Caching** is supported and it depends on **WP_DEBUG**, if **WP_DEBUG** is enabled, caching is disabled and vice versa.
+**Caching** is supported and it depends on **WP_DEBUG**, if **WP_DEBUG** is enabled, caching is disabled and vice versa (for the development process, it is recommended to enable WP_DEBUG).
 > The Controller-Interface saves its Routes in a global variable, you can render those routes with the just added Twig-Functions url("routename") and path("routename").
 
 ```php
