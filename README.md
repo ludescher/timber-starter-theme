@@ -50,7 +50,8 @@ if (!Encore.isProduction()) {
 Finally, activate the Timber plugin!
 
 ### Timber-Cache
-Caching is now disabled by default
+**Caching** is now disabled by default
+>Note: you should enable caching in Production!
 ```php
 // functions.php
 
@@ -80,7 +81,9 @@ src/Taxonomy/car_brand.php
 ```
 
 ### Controller (heavily inspired by [symfony](https://symfony.com/doc/current/controller.html#a-simple-controller "symfony"))
-> The Controller-Interface saves its Routes in a global variable, you can render those routes with the two new Twig-Functions url("routename") and path("routename").
+Im using [Annotation](https://www.doctrine-project.org/projects/annotations.html) for handling routing names and paths.
+**Caching** is supported and it depends on WP_DEBUG, if WP_DEBUG is enabled, caching is disabled and vice versa.
+> The Controller-Interface saves its Routes in a global variable, you can render those routes with the just added Twig-Functions url("routename") and path("routename").
 
 ```php
 // src/Controller/DefaultController.php
@@ -104,28 +107,57 @@ class DefaultController extends Controller {
 ```
 With the new Controller you have access to
 ```php
-// redirect the user to another page
+/**
+ * redirect the user to another page
+ * 
+ * @param String $routename
+ * @param Array $args
+ */
 $this->redirectToRoute("routename");
 ```
 
 ```php
-// Passes data to a Twig file and returns the output.
+/**
+ * Compile a Twig file.
+ *
+ * Passes data to a Twig file and returns the output.
+ * 
+ * @param String $twig_file_name
+ * @param Array $options
+ * @return String
+ */
 $this->render("filename");
 ```
 
 ```php
-// redirect the user to another page
+/**
+ * redirect the user to another page
+ * 
+ * @param String $url
+ * @param Bool $permanent
+ */
 $this->redirect("url");
 ```
 
 ```php
-// get current user
-// get user by id
+/**
+ * get current user
+ * get user by id
+ * 
+ * @param Int $id
+ * @return User
+ */
 $this->getUser();
 ```
 
 ```php
-// generate the url to another page
+/**
+ * generate the url to another page
+ * 
+ * @param String $routename
+ * @param Array $args
+ * @return String
+ */
 $this->generateUrl("routename");
 ```
-and much more ;-)
+###and there is more to come!
