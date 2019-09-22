@@ -14,17 +14,21 @@ class StarterSite extends Site {
 
 	public function __construct() {
 		$this->finder = new Finder();
+
 		//Register Actions / Filters
 		add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
 		add_filter( 'timber_context', array( $this, 'add_to_context' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_and_styles' ), 999);
-		add_action( 'init', array( $this, 'register_router'));
-		add_action( 'init', array( $this, 'register_timber_extensions'));
-		add_action( 'init', array( $this, 'register_menus'));
-		add_action( 'init', array( $this, 'register_post_types' ) );
-		add_action( 'init', array( $this, 'register_taxonomies' ) );
-		add_action( 'init', array( $this, 'register_hooks' ) );
-		add_action( 'init', array( $this, 'register_metaboxes' ) );
+		
+		// Register Custom PHP-Files
+		$this->register_router();
+		$this->register_timber_extensions();
+		$this->register_menus();
+		$this->register_post_types();
+		$this->register_taxonomies();
+		$this->register_hooks();
+		$this->register_metaboxes();
+		
 		parent::__construct();
 	}
 
