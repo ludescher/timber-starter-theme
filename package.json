@@ -15,7 +15,8 @@
     "browser-sync-webpack-plugin": "^2.2.2",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.0.1",
-    "webpack-notifier": "^1.6.0"
+    "webpack-notifier": "^1.6.0",
+    "serialize-javascript": ">=2.1.1"
   },
   "dependencies": {}
 }
